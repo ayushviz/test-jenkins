@@ -1,24 +1,20 @@
 pipeline {
     agent any
-
     environment {
         IMAGE_NAME = 'ayushviz/test-jenkins'
     }
-
     stages {
         stage('Checkout') {
             steps {
                 git branch: 'main',
-                    url: 'https://github.com/ayushviz/test-jenkins'
+                url: 'https://github.com/ayushviz/test-jenkins'
             }
         }
-
         stage('Build Docker Image') {
             steps {
                 sh 'docker build -t ${IMAGE_NAME}:latest .'
             }
         }
-
         stage('Push to DockerHub') {
             steps {
                 withCredentials([
@@ -29,13 +25,9 @@ pipeline {
                     )
                 ]) {
                     sh '''
-                        echo "$DOCKER_PASS" | docker login \
-                        -u "$DOCKER_USER" --password-stdin
-
-                        docker push ayushviz/test-jenkins:latest
-
-                        docker logout
-                    '''
+                echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
+                docker push ayushviz/test-jenkins:latest
+            '''
                 }
             }
         }
