@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-        IMAGE_NAME = 'ayushviz/test-jenkins'
+        IMAGE_NAME = 'borntodieonmountains/test-jenkins'
     }
     stages {
         stage('Checkout') {
@@ -26,7 +26,7 @@ pipeline {
                 ]) {
                     sh '''
                 echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
-                docker push ayushviz/test-jenkins:latest
+                docker push ${IMAGE_NAME}:latest
             '''
                 }
             }
